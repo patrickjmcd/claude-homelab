@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-07-07
+
+### Added
+- `commands/homelab/k8s-health.md` — Kubernetes pod/node health check replacing docker-health; shows pod status, node resources, and ArgoCD app health overview
+- `commands/homelab/longhorn-health.md` — Longhorn block storage health check replacing zfs-health; shows PVC status, volume robustness, and node disk availability
+- `commands/homelab/argocd-sync.md` — New command for ArgoCD application sync and health status with GitOps remediation guidance
+- `skills/longhorn/` — New Longhorn skill replacing ZFS; includes SKILL.md, `longhorn-health.sh` script, quick-reference, and troubleshooting docs
+- `kubectl top nodes/pods` added to `commands/homelab/system-resources.md`
+- Longhorn PVC and volume status added to `commands/homelab/disk-space.md`
+
+### Removed
+- `commands/homelab/docker-health.md` — replaced by `k8s-health.md`
+- `commands/homelab/zfs-health.md` — replaced by `longhorn-health.md`
+- `skills/zfs/` — replaced by `skills/longhorn/`
+
+### Changed
+- `commands/homelab/system-resources.md` — now queries `kubectl top nodes` and `kubectl top pods` in addition to local system metrics
+- `commands/homelab/disk-space.md` — replaced Docker volume analysis with Longhorn PVC and volume health checks
+- Removed Unraid and ZFS host variables from environment variable reference (cluster uses 1Password operator for secrets)
+
 ## [1.4.1] - 2026-04-05
 
 ### Added

@@ -6,7 +6,7 @@ Comprehensive Claude Code skills, agents, and commands for homelab service manag
 
 - **Skill**: A Claude Code plugin providing commands and scripts for a specific service (e.g., Plex, Radarr)
 - **Agent**: A specialized AI agent for complex workflows (e.g., `notebooklm-specialist`)
-- **Command**: A slash command invocable in Claude Code (e.g., `/firecrawl:scrape`, `/homelab:docker-health`)
+- **Command**: A slash command invocable in Claude Code (e.g., `/firecrawl:scrape`, `/homelab:k8s-health`)
 - **Script**: Executable code in skill `scripts/` directories that performs API calls or system operations
 - **Reference**: Detailed documentation in skill `references/` directories (API endpoints, troubleshooting, etc.)
 - **Symlink**: Symbolic link connecting this repo to `~/.claude/` for Claude Code discovery
@@ -45,7 +45,7 @@ claude-homelab/
 │   ├── quick-push.md                # /quick-push
 │   ├── save-to-md.md                # /save-to-md
 │   ├── validate-plan.md             # /validate-plan
-│   ├── homelab/                     # /homelab:system-resources, docker-health, disk-space, zfs-health
+│   ├── homelab/                     # /homelab:system-resources, k8s-health, disk-space, longhorn-health, argocd-sync
 │   └── notebooklm/                  # /notebooklm:create, ask, source, generate, download, list, research
 │
 ├── prompts/                         # Command prompt definitions (.toml sidecars)
@@ -56,9 +56,9 @@ claude-homelab/
 │   ├── validate-plan.toml           # Prompt body for /validate-plan
 │   └── homelab/                     # Prompt bodies for /homelab:* commands
 │       ├── disk-space.toml
-│       ├── docker-health.toml
+│       ├── k8s-health.toml
 │       ├── system-resources.toml
-│       └── zfs-health.toml
+│       └── longhorn-health.toml
 │
 ├── docs/references/                 # Shared reference documentation
 │   └── security-patterns.md         # Reusable security patterns for scripts
@@ -98,7 +98,7 @@ The `claude-homelab` marketplace (`.claude-plugin/marketplace.json`) encompasses
 | 9 | **syslog-mcp** | [jmagar/syslog-mcp](https://github.com/jmagar/syslog-mcp) | `~/workspace/syslog-mcp` | infrastructure |
 | 10 | **plugin-lab** | [jmagar/plugin-lab](https://github.com/jmagar/plugin-lab) | `~/workspace/plugin-lab` | dev-tools |
 
-The remaining 16 marketplace entries (bytestash, gh-address-comments, linkding, memos, notebooklm, paperless-ngx, plex, prowlarr, qbittorrent, radarr, radicale, sabnzbd, sonarr, tailscale, tautulli, zfs) are **bundled skill-only** plugins sourced from `./skills/*` within this repo. They graduate to their own external repo when they gain additional plugin surface area (agents, commands, MCP servers, etc.).
+The remaining 16 marketplace entries (bytestash, gh-address-comments, linkding, longhorn, memos, notebooklm, paperless-ngx, plex, prowlarr, qbittorrent, radarr, radicale, sabnzbd, sonarr, tailscale, tautulli) are **bundled skill-only** plugins sourced from `./skills/*` within this repo. They graduate to their own external repo when they gain additional plugin surface area (agents, commands, MCP servers, etc.).
 
 ## Source of Truth
 

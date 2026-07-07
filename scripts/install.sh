@@ -2,7 +2,7 @@
 # =============================================================================
 # Claude Homelab Installer
 # =============================================================================
-# One-liner: curl -sSL https://raw.githubusercontent.com/jmagar/claude-homelab/main/scripts/install.sh | bash
+# One-liner: curl -sSL https://raw.githubusercontent.com/patrickjmcd/claude-homelab/main/scripts/install.sh | bash
 #
 # What this does:
 #   1. Checks prerequisites (git, jq, curl)
@@ -24,7 +24,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-REPO_URL="https://github.com/jmagar/claude-homelab.git"
+REPO_URL="https://github.com/patrickjmcd/claude-homelab.git"
 INSTALL_DIR="$HOME/claude-homelab"
 HOMELAB_DIR="$HOME/.claude-homelab"
 

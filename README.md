@@ -1,6 +1,6 @@
 # Claude Homelab
 
-Current release: 1.4.0.
+Current release: 1.5.0.
 
 Homelab plugin hub for Claude Code, Codex, and Gemini. This repository is the source of truth for the `homelab-core` plugin, bundled skill-only integrations, agents, commands, and shared credential bootstrapping.
 
@@ -28,7 +28,7 @@ After install, Claude Code downloads the plugin into `~/.claude/plugins/cache/`.
 ### Bash / symlink install
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/jmagar/claude-homelab/main/scripts/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/patrickjmcd/claude-homelab/main/scripts/install.sh | bash
 ```
 
 Or, if you already have the repo cloned:
@@ -117,23 +117,12 @@ Variables are grouped by service. Copy `.env.example` to `~/.claude-homelab/.env
 
 | Variable | Required | Description |
 |---|---|---|
-| `UNRAID_SERVER1_NAME` | yes | Display name for first Unraid server |
-| `UNRAID_SERVER1_URL` | yes | Unraid GraphQL endpoint (skill) |
-| `UNRAID_SERVER1_API_KEY` | yes | Unraid API key (skill) |
-| `UNRAID_SERVER2_NAME` | no | Display name for second Unraid server |
-| `UNRAID_SERVER2_URL` | no | Second Unraid GraphQL endpoint |
-| `UNRAID_SERVER2_API_KEY` | no | Second Unraid API key |
 | `UNIFI_URL` | yes | UniFi controller URL (skill) |
 | `UNIFI_USERNAME` | yes | UniFi username |
 | `UNIFI_PASSWORD` | yes | UniFi password |
 | `UNIFI_SITE` | no | UniFi site name (default: `default`) |
 | `TAILSCALE_API_KEY` | yes | Tailscale API key |
 | `TAILSCALE_TAILNET` | yes | Tailscale tailnet name or `-` |
-| `ZFS_HOST` | yes | Host where ZFS commands run |
-| `SWAG_HOST` | yes | SWAG reverse proxy host |
-| `SWAG_CONTAINER_NAME` | no | SWAG container name (default: `swag`) |
-| `SWAG_APPDATA_PATH` | no | SWAG appdata path |
-| `SWAG_COMPOSE_PATH` | no | SWAG compose file path |
 
 #### Utilities and Document Management
 
@@ -198,10 +187,11 @@ Each external MCP plugin has its own block of server-config vars. See `.env.exam
 
 | Command | Description |
 |---|---|
-| `/homelab:system-resources` | Snapshot CPU, RAM, temperatures, and load average. Identifies high-CPU processes, memory pressure, temperature anomalies, and provides optimization recommendations. Uses `uptime`, `free`, `top`, and `sensors`. |
-| `/homelab:docker-health` | Audit all Docker containers. Flags unexpected exits, restart loops, unhealthy containers, and resource over-use (CPU > 80%, memory > 90%). Provides per-container recommendations. |
-| `/homelab:disk-space` | Analyze disk usage across all mount points. Identifies filesystems above 80% or 95% usage, space hogs, log rotation issues, Docker volume orphans, and suggests cleanup targets. |
-| `/homelab:zfs-health` | Full ZFS health check. Reports pool state (ONLINE/DEGRADED/FAULTED), device errors, checksum errors, resilvering, scrub status, ARC hit ratio, snapshot accumulation, and per-dataset usage. Outputs a health score and prioritized action list. |
+| `/homelab:system-resources` | Snapshot CPU and RAM across cluster nodes and local machine. Shows `kubectl top nodes`, top CPU/memory pods, local load average, and temperature readings. |
+| `/homelab:k8s-health` | Audit all Kubernetes pods and nodes. Flags pods in CrashLoopBackOff, Error, Pending, or OOMKilled states, surfaces ArgoCD app health, and identifies node resource pressure. |
+| `/homelab:disk-space` | Analyze storage across Longhorn PVCs, SMB volumes, and local mounts. Flags unbound PVCs, degraded volumes, and filesystems above 80% or 95% usage. |
+| `/homelab:longhorn-health` | Full Longhorn storage check. Reports PVC status, volume robustness (Healthy/Degraded/Faulted), replica distribution, and node disk availability. |
+| `/homelab:argocd-sync` | Check ArgoCD application sync and health status. Lists OutOfSync and Degraded apps, surfaces recent sync errors, and provides GitOps-correct remediation steps. |
 
 ### `/notebooklm:*` Commands
 
@@ -254,7 +244,7 @@ All types support `-s/--source`, `--language`, `--json`, and `--retry N`.
 | `sabnzbd` | downloads | Monitor SABnzbd queue, speed, and history; manage download jobs |
 | `qbittorrent` | downloads | Manage qBittorrent torrents — list, add, pause, resume, and remove downloads |
 | `tailscale` | infrastructure | Query Tailscale network status, list devices, check connectivity, and manage ACLs |
-| `zfs` | infrastructure | ZFS pool and dataset management — status, snapshots, scrubs, and space reporting |
+| `longhorn` | infrastructure | Longhorn distributed block storage — PVC health, volume robustness, replica status, and expansion |
 | `linkding` | utilities | Manage Linkding bookmarks — search, add, tag, and organize saved links |
 | `memos` | utilities | Create and query Memos notes — add quick notes, search by tag or content |
 | `bytestash` | utilities | Manage ByteStash code snippets — save, search, and retrieve frequently-used code |
@@ -315,7 +305,7 @@ The `.claude-plugin/marketplace.json` catalog covers 27 plugins total.
 
 ### 16 bundled skill-only plugins
 
-`bytestash`, `gh-address-comments`, `linkding`, `memos`, `notebooklm`, `paperless-ngx`, `plex`, `prowlarr`, `qbittorrent`, `radarr`, `radicale`, `sabnzbd`, `sonarr`, `tailscale`, `tautulli`, `zfs`
+`bytestash`, `gh-address-comments`, `linkding`, `longhorn`, `memos`, `notebooklm`, `paperless-ngx`, `plex`, `prowlarr`, `qbittorrent`, `radarr`, `radicale`, `sabnzbd`, `sonarr`, `tailscale`, `tautulli`
 
 These are listed individually in the marketplace catalog so users can discover them, but they are sourced from `./skills/*` within this repo. A bundled skill graduates to its own external repo when it gains additional plugin surface area (agents, commands, hooks, MCP servers, output styles, or channels).
 
@@ -345,7 +335,7 @@ The bash install path creates symlinks from this repo into `~/.claude/` so Claud
 │   ├── sonarr/                  → ~/claude-homelab/skills/sonarr/
 │   ├── tailscale/               → ~/claude-homelab/skills/tailscale/
 │   ├── tautulli/                → ~/claude-homelab/skills/tautulli/
-│   └── zfs/                     → ~/claude-homelab/skills/zfs/
+│   └── longhorn/                → ~/claude-homelab/skills/longhorn/
 └── commands/
     ├── check.md                 → ~/claude-homelab/commands/check.md
     ├── deploy.md                → ~/claude-homelab/commands/deploy.md
@@ -365,7 +355,7 @@ The bash install path creates symlinks from this repo into `~/.claude/` so Claud
 Slash commands are created by placing `.md` files in `~/.claude/commands/`. Claude Code discovers them automatically.
 
 - `commands/proxy.md` → `/proxy`
-- `commands/homelab/docker-health.md` → `/homelab:docker-health`
+- `commands/homelab/k8s-health.md` → `/homelab:k8s-health`
 
 The directory name becomes the namespace prefix. The file name becomes the command after the colon.
 
@@ -398,7 +388,7 @@ Key fields:
 Command prompt bodies can be extracted to `.toml` sidecar files in `prompts/`, keeping command metadata (frontmatter, description) separate from the prompt content. When populated, the directory mirrors the `commands/` structure:
 
 - `prompts/check.toml` — prompt body for `/check`
-- `prompts/homelab/docker-health.toml` — prompt body for `/homelab:docker-health`
+- `prompts/homelab/k8s-health.toml` — prompt body for `/homelab:k8s-health`
 
 Format:
 

@@ -55,7 +55,7 @@ else
     else
         # Fallback: fetch from GitHub if running via curl | bash
         local_example="$(mktemp)"
-        if curl -sSL "https://raw.githubusercontent.com/jmagar/claude-homelab/main/.env.example" \
+        if curl -sSL "https://raw.githubusercontent.com/patrickjmcd/claude-homelab/main/.env.example" \
             -o "$local_example" 2>/dev/null; then
             cp "$local_example" "$ENV_FILE"
             rm -f "$local_example"
@@ -71,10 +71,10 @@ fi
 
 echo ""
 echo -e "${GREEN}Services requiring credentials:${NC}"
-echo "  Media:          Plex, Radarr, Sonarr, Overseerr, Prowlarr, Tautulli"
+echo "  Media:          Plex, Radarr, Sonarr, Prowlarr, Tautulli"
 echo "  Downloads:      qBittorrent, SABnzbd"
-echo "  Infrastructure: Unraid (×2), UniFi, Tailscale, ZFS"
-echo "  Utilities:      Gotify, Linkding, Memos, ByteStash, Paperless-ngx, Radicale"
+echo "  Infrastructure: UniFi, Tailscale"
+echo "  Utilities:      Linkding, Memos, ByteStash, Paperless-ngx, Radicale"
 echo ""
 echo -e "${YELLOW}Next steps:${NC}"
 echo "  1. Open Claude Code and run: /homelab-core:setup"

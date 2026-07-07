@@ -49,7 +49,7 @@ if [[ -f "$HOMELAB_DIR/.env" ]]; then
         log_warn ".env is empty — run /homelab-core:setup in Claude Code"
     fi
 else
-    log_err ".env missing — run: curl -sSL https://raw.githubusercontent.com/jmagar/claude-homelab/main/scripts/setup-creds.sh | bash"
+    log_err ".env missing — run: curl -sSL https://raw.githubusercontent.com/patrickjmcd/claude-homelab/main/scripts/setup-creds.sh | bash"
 fi
 
 if [[ -f "$HOMELAB_DIR/load-env.sh" ]]; then
@@ -163,15 +163,15 @@ fi
 
 # Check homelab-core skills
 log_head "Homelab-Core Skills"
-for skill in setup health; do
+for skill in homelab-setup homelab-health; do
     if [[ -f "$REPO_ROOT/skills/$skill/SKILL.md" ]]; then
-        log_ok "/homelab-core:$skill skill present"
+        log_ok "$skill skill present"
     else
         log_err "skills/$skill/SKILL.md missing"
     fi
 done
 
-if [[ -x "$REPO_ROOT/skills/health/scripts/check-health.sh" ]]; then
+if [[ -x "$REPO_ROOT/skills/homelab-health/scripts/check-health.sh" ]]; then
     log_ok "check-health.sh is executable"
 else
     log_warn "check-health.sh missing or not executable"

@@ -334,13 +334,13 @@
       "homepage": "https://github.com/jmagar/claude-homelab"
     },
     {
-      "name": "zfs",
-      "source": "./skills/zfs",
-      "description": "ZFS storage management. Monitor pools, datasets, snapshots, scrubs, and replication.",
+      "name": "longhorn",
+      "source": "./skills/longhorn",
+      "description": "Longhorn distributed block storage for Kubernetes. Monitor PVC health, volume robustness, replicas, and node disk status.",
       "version": "1.0.0",
       "category": "infrastructure",
-      "tags": ["zfs", "storage", "snapshots", "homelab"],
-      "homepage": "https://github.com/jmagar/claude-homelab"
+      "tags": ["longhorn", "kubernetes", "storage", "pvc", "homelab"],
+      "homepage": "https://github.com/patrickjmcd/claude-homelab"
     }
   ]
 }
